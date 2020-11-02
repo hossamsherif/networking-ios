@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'NetworkLayer_Example' do
+  pod 'NetworkLayer', :path => '../'
+
+  target 'NetworkLayer_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

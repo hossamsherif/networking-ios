@@ -1,0 +1,22 @@
+{
+  "name": "NetworkLayer",
+  "version": "0.1.0",
+  "summary": "A short description of NetworkLayer.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/hossamsherif/NetworkLayer",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "hossamsherif": "hossam.sherif21@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/hossamsherif/NetworkLayer.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "NetworkLayer/Classes/**/*"
+}
