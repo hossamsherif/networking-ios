@@ -1,4 +1,4 @@
-framework module Pods_NetworkLayer_Example {
+module Pods_NetworkLayer_Example {
   umbrella header "Pods-NetworkLayer_Example-umbrella.h"
 
   export *

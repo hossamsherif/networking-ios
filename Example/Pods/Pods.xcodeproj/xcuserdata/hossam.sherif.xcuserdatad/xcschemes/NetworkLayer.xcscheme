@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "09A6C88213AD89B627ADDF4B22439BD4"
-               BuildableName = "NetworkLayer.framework"
+               BuildableName = "libNetworkLayer.a"
                BlueprintName = "NetworkLayer"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

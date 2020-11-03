@@ -1,4 +1,4 @@
-framework module NetworkLayer {
+module NetworkLayer {
   umbrella header "NetworkLayer-umbrella.h"
 
   export *

@@ -1,16 +1,41 @@
 PODS:
-  - NetworkLayer (0.1.0)
+  - Alamofire (5.3.0)
+  - DataCache (1.5)
+  - Moya (14.0.0):
+    - Moya/Core (= 14.0.0)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - NetworkLayer (0.1.0):
+    - DataCache
+    - Moya (~> 14.0)
+    - ObjectMapper
+    - ReachabilitySwift
+  - ObjectMapper (4.2.0)
+  - ReachabilitySwift (5.0.0)
 
 DEPENDENCIES:
   - NetworkLayer (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - DataCache
+    - Moya
+    - ObjectMapper
+    - ReachabilitySwift
 
 EXTERNAL SOURCES:
   NetworkLayer:
     :path: "../"
 
 SPEC CHECKSUMS:
-  NetworkLayer: 00f602f1aed589bee25b963af2524d413cbfc18c
+  Alamofire: 2c792affbdc2f18016e08fdbcacd60aebe1ba593
+  DataCache: 8099e01aa35c2fd30f3410aae14ef5a130f6524b
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  NetworkLayer: b5df04ba7bd5d829d3359d943596caeefcf3cda9
+  ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
 
-PODFILE CHECKSUM: df6e3812f31b28f36f2b6b3f2956b40472ec0af3
+PODFILE CHECKSUM: 14a78719c01961311809b40843fb0ce273abd9f9
 
 COCOAPODS: 1.10.0

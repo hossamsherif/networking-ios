@@ -3,7 +3,7 @@
 //  NetworkLayer
 //
 //  Created by hossamsherif on 11/02/2020.
-//  Copyright (c) 2020 hossamsherif. All rights reserved.
+//  Copyright © 2020 Rubikal. All rights reserved.
 //
 
 import UIKit
