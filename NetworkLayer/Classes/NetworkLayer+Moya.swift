@@ -38,7 +38,7 @@ extension MoyaProvider {
 }
 
 extension Session {
-    static func NLDefaultSession() -> Session {
+    public static func NLDefaultSession() -> Session {
         let configuration = URLSessionConfiguration.default
         configuration.headers = .default
         configuration.timeoutIntervalForRequest = NLConstants.defaultTimeout

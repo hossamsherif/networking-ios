@@ -17,7 +17,7 @@ public struct NLConfiguration {
     
     /// used to retrive failed request from userInfo associated with  apiConnectionFailure Notification
     public var apiConnectionFailureUserInfoKey:String
-
+    
     /// providing a custom apiConnectionFailure Notification.Name
     public var apiConnectionFailure: Notification.Name
     
@@ -57,10 +57,11 @@ extension  Notification.Name {
 public typealias ReauthenticateBlockType = ((()->())->())
 
 /// Shorthand for convenience instead of NetworkLayerWrapper.shared
-public let NL = NetworkLayerProvider.default
+public let NL = NetworkLayerProvider(errorClass: NLBaseError.self)
 
-public class NetworkLayerProvider {
-    
+
+public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
+    public typealias BaseErrorDefault = NLBaseError
     /// NetworkLayerWrapper configuration
     open var configuration:NLConfiguration
     
@@ -81,8 +82,6 @@ public class NetworkLayerProvider {
     open lazy var baseAPI: NLBaseAPI = NLBaseAPI.default
     
     /// Default instance with default configuration
-    public static let `default` = NetworkLayerProvider()
-    
     open var cacheManager: DataCache
     
     /// Init for NetworkLayerWrapper
@@ -91,11 +90,12 @@ public class NetworkLayerProvider {
     ///   - configuration: NLConfiguration struct for settings NetworkLayerWrapper configuration
     ///   - reachabilityConfig: ReachabilityConfiguration struct for setting ReachibilityManager configuration
     ///   - reauthenticateBlock: ReauthenticateBlockType used when 401 unauthorized reponsed from server to retry last failed request
-    init(configuration:NLConfiguration = NLConfiguration(),
-         reachabilityConfiguration:NLReachabilbityConfiguration = NLReachabilbityConfiguration(),
-         reauthenticateBlock:ReauthenticateBlockType? = nil,
-         cacheManager:DataCache = DataCache(name: String(reflecting: NetworkLayerProvider.self)),
-         session:Session = Session.NLDefaultSession()) {
+    public init(configuration:NLConfiguration = NLConfiguration(),
+                reachabilityConfiguration:NLReachabilbityConfiguration = NLReachabilbityConfiguration(),
+                reauthenticateBlock:ReauthenticateBlockType? = nil,
+                cacheManager:DataCache = DataCache(name: String(reflecting: NetworkLayerProvider.self)),
+                session:Session = Session.NLDefaultSession(),
+                errorClass: E.Type) {
         self.configuration = configuration
         self.reachabilityConfiguration = reachabilityConfiguration
         self.cacheManager = cacheManager
@@ -109,12 +109,13 @@ public class NetworkLayerProvider {
     ///   - configuration: NLConfiguration struct for settings NetworkLayerWrapper configuration
     ///   - reachabilityConfig: ReachabilityConfiguration struct for setting ReachibilityManager configuration
     ///   - reauthenticateBlock: ReauthenticateBlockType used when 401 unauthorized reponsed from server to retry last failed request
-    convenience init(configuration:NLConfiguration = NLConfiguration(),
-                     reachabilityConfiguration:NLReachabilbityConfiguration = NLReachabilbityConfiguration(),
-                     reauthenticateBlock:ReauthenticateBlockType? = nil,
-                     cacheManager:DataCache = DataCache(name: String(reflecting: NetworkLayerProvider.self)),
-                     baseAPI:NLBaseAPI) {
-        self.init()
+    public convenience init(configuration:NLConfiguration = NLConfiguration(),
+                            reachabilityConfiguration:NLReachabilbityConfiguration = NLReachabilbityConfiguration(),
+                            reauthenticateBlock:ReauthenticateBlockType? = nil,
+                            cacheManager:DataCache = DataCache(name: String(reflecting: NetworkLayerProvider.self)),
+                            baseAPI:NLBaseAPI,
+                            errorClass: E.Type = E.self) {
+        self.init(errorClass: errorClass)
         self.baseAPI = baseAPI
     }
     
@@ -127,8 +128,14 @@ public class NetworkLayerProvider {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest<T: TargetType>(target: T, shouldRetryOn401: Bool = true,completion:@escaping NLCompletionVoid) -> CancellableRequest? {
-        return NLBaseAPI.default.sendRequest(target: target, shouldRetryOn401: shouldRetryOn401,completion: completion)
+    public func sendRequest< T: TargetType>(target: T,
+                                           shouldRetryOn401: Bool = true,
+                                           errorClass: E.Type = E.self,
+                                           completion:@escaping NLCompletionVoid) -> CancellableRequest? {
+        return baseAPI.sendRequest(target: target,
+                                   shouldRetryOn401: shouldRetryOn401,
+                                   errorClass: errorClass,
+                                   completion: completion)
     }
     
     /// Send request with expected mappable object returned
@@ -145,14 +152,14 @@ public class NetworkLayerProvider {
                                                      shouldRetryOn401: Bool = true,
                                                      progress:((Double)-> Void)? = nil,
                                                      cachedResponseKey: String? = nil,
+                                                     errorClass: E.Type = E.self,
                                                      completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
-        return NLBaseAPI.default.fetchData(target: target,
-                                           shouldRetryOn401: shouldRetryOn401,
-                                           responseClass: responseClass,
-                                           progress: progress,
-                                           cachedResponseKey: cachedResponseKey,
-                                           completion: completion)
+        return baseAPI.fetchData(target: target,
+                                 shouldRetryOn401: shouldRetryOn401,
+                                 responseClass: responseClass,
+                                 progress: progress,
+                                 cachedResponseKey: cachedResponseKey,
+                                 errorClass: errorClass,
+                                 completion: completion)
     }
-    
-
 }

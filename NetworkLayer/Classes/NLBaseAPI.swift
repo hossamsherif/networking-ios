@@ -55,10 +55,11 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest<T: TargetType>(target: T,
+    public func sendRequest<E: NLBaseErrorProtocol, T: TargetType>(target: T,
                                            shouldRetryOn401: Bool = true,
+                                           errorClass: E.Type,
                                            completion:@escaping NLCompletionVoid) -> CancellableRequest? {
-        return fetchData(target: target, shouldRetryOn401: shouldRetryOn401, responseClass: NLBaseEmptyResponse.self) { (result, _)  in
+        return fetchData(target: target, shouldRetryOn401: shouldRetryOn401, responseClass: NLBaseEmptyResponse.self, errorClass: errorClass) { (result, _)  in
             switch result {
             case .success:
                 completion(.success(()))
@@ -78,16 +79,17 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func fetchData<M: Mappable, T:TargetType>(target: T,
+    public func fetchData<M: Mappable, E: NLBaseErrorProtocol, T:TargetType>(target: T,
                                                      shouldRetryOn401: Bool = true,
                                                      responseClass: M.Type,
                                                      progress:NLProgressBlock? = nil,
                                                      cachedResponseKey: String? = nil,
+                                                     errorClass: E.Type,
                                                      completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         
         //Prepare retry block on failure
         let retryBlock: (Bool)->(()->()) = {  [weak self] shouldRetry in
-            return { self?.fetchData(target: target, shouldRetryOn401: shouldRetry, responseClass: responseClass, progress: progress, cachedResponseKey: cachedResponseKey, completion: completion) }
+            return { self?.fetchData(target: target, shouldRetryOn401: shouldRetry, responseClass: responseClass, progress: progress, cachedResponseKey: cachedResponseKey, errorClass: errorClass, completion: completion) }
         }
         //Check network reachability
         guard reachable(retryBlock(shouldRetryOn401)) else { return nil }
@@ -106,7 +108,8 @@ public class NLBaseAPI {
             success(cachedResult, true)
         }
         //Make request and return cancellabeRequest handler
-        return provider.request(MultiTarget(target),progress: progressBlock) { responseResult in
+        return provider.request(MultiTarget(target),progress: progressBlock) { [weak self] responseResult in
+            guard let self = self else { return }
             switch responseResult {
             case .success(let moyaResponse):
                 do {
@@ -119,7 +122,7 @@ public class NLBaseAPI {
                     self.writeCache(forKey: cachedResponseKey, data: successResponse.data)
                     success(mappedObject, false)
                 }catch {
-                    if let errorObject = Mapper<NLBaseError>().map(JSONObject: try? moyaResponse.mapJSON()) {
+                    if let errorObject = Mapper<E>().map(JSONObject: try? moyaResponse.mapJSON()) {
                         // Check if 401 status and has authenicate block from NL wrapper
                         if errorObject.code == 401, shouldRetryOn401, let reauthenticateBlock = NL.reauthenticateBlock {
                             //Note: retryBlock(false), here set to false to break retry on fail indefinitely

@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-public class NLBaseError: Mappable {
+public class NLBaseError: NLBaseErrorProtocol {
     public var code: Int?
     public var errors: [String]?
     
@@ -23,4 +23,9 @@ public class NLBaseError: Mappable {
         code <- map["code"]
         errors <- map["errors"]
     }
+}
+
+public protocol NLBaseErrorProtocol: Mappable {
+    var code: Int? { get set }
+    var errors: [String]? { get  set }
 }
