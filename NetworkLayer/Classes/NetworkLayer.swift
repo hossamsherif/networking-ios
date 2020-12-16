@@ -54,14 +54,15 @@ extension  Notification.Name {
     }
 }
 
-public typealias ReauthenticateBlockType = ((()->())->())
+/// Shorthand for convenience instead of NetworkLayerProvider.shared
+public let NL = NetworkLayerProvider.default
 
-/// Shorthand for convenience instead of NetworkLayerWrapper.shared
-public let NL = NetworkLayerProvider(errorClass: NLBaseError.self)
-
-
-public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
+public class NetworkLayerProvider {
+    
     public typealias BaseErrorDefault = NLBaseError
+    
+    public typealias ReauthenticateBlockType = ((()->())->())
+    
     /// NetworkLayerWrapper configuration
     open var configuration:NLConfiguration
     
@@ -81,6 +82,10 @@ public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
     /// Main provider used by NetworkLayer
     open lazy var baseAPI: NLBaseAPI = NLBaseAPI.default
     
+    
+    /// NetworkLayer default instance
+    public static let `default` = NetworkLayerProvider()
+    
     /// Default instance with default configuration
     open var cacheManager: DataCache
     
@@ -94,8 +99,7 @@ public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
                 reachabilityConfiguration:NLReachabilbityConfiguration = NLReachabilbityConfiguration(),
                 reauthenticateBlock:ReauthenticateBlockType? = nil,
                 cacheManager:DataCache = DataCache(name: String(reflecting: NetworkLayerProvider.self)),
-                session:Session = Session.NLDefaultSession(),
-                errorClass: E.Type) {
+                session:Session = Session.NLDefaultSession()) {
         self.configuration = configuration
         self.reachabilityConfiguration = reachabilityConfiguration
         self.cacheManager = cacheManager
@@ -113,9 +117,8 @@ public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
                             reachabilityConfiguration:NLReachabilbityConfiguration = NLReachabilbityConfiguration(),
                             reauthenticateBlock:ReauthenticateBlockType? = nil,
                             cacheManager:DataCache = DataCache(name: String(reflecting: NetworkLayerProvider.self)),
-                            baseAPI:NLBaseAPI,
-                            errorClass: E.Type = E.self) {
-        self.init(errorClass: errorClass)
+                            baseAPI:NLBaseAPI) {
+        self.init()
         self.baseAPI = baseAPI
     }
     
@@ -130,7 +133,7 @@ public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
     @discardableResult
     public func sendRequest< T: TargetType>(target: T,
                                            shouldRetryOn401: Bool = true,
-                                           errorClass: E.Type = E.self,
+                                           errorClass: NLBaseErrorProtocol.Type = BaseErrorDefault.self,
                                            completion:@escaping NLCompletionVoid) -> CancellableRequest? {
         return baseAPI.sendRequest(target: target,
                                    shouldRetryOn401: shouldRetryOn401,
@@ -152,7 +155,7 @@ public class NetworkLayerProvider<E: NLBaseErrorProtocol> {
                                                      shouldRetryOn401: Bool = true,
                                                      progress:((Double)-> Void)? = nil,
                                                      cachedResponseKey: String? = nil,
-                                                     errorClass: E.Type = E.self,
+                                                     errorClass: NLBaseErrorProtocol.Type = BaseErrorDefault.self,
                                                      completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         return baseAPI.fetchData(target: target,
                                  shouldRetryOn401: shouldRetryOn401,

@@ -26,11 +26,12 @@ class NetworkProvider: NetworkProviderProtocol {
     
     @discardableResult
     func getHello(completion: @escaping HelloModelResult) -> CancellableRequest? {
-        return NL.fetchData(target: ExampleTarget.getMessage, responseClass: NLBaseResponse<HelloModel>.self, cachedResponseKey: ExampleTarget.getMessage.path) { (result, cached) in
+        return NL.fetchData(target: ExampleTarget.getMessage, responseClass: NLBaseResponse<HelloModel>.self, cachedResponseKey: ExampleTarget.getMessage.path, errorClass: MyErrorModel.self) { (result, cached) in
             switch result {
             case .success(let response):
                 completion(.success(response?.data), cached)
             case .failure(let error):
+                print(error.errorObject?.custom)
                 completion(.failure(error), cached)
             }
         }

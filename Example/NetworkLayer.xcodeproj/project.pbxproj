@@ -11,6 +11,7 @@
 		5F1E1B7A255150EE00C90D0C /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E1B79255150EE00C90D0C /* NetworkProvider.swift */; };
 		5F1E1B7C2551512100C90D0C /* ExampleTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E1B7B2551512100C90D0C /* ExampleTarget.swift */; };
 		5F1E1B7E2551513E00C90D0C /* HelloModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1E1B7D2551513E00C90D0C /* HelloModel.swift */; };
+		5F2D2843258AEEDA00062D0D /* MyErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D2842258AEEDA00062D0D /* MyErrorModel.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		5F1E1B79255150EE00C90D0C /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		5F1E1B7B2551512100C90D0C /* ExampleTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTarget.swift; sourceTree = "<group>"; };
 		5F1E1B7D2551513E00C90D0C /* HelloModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloModel.swift; sourceTree = "<group>"; };
+		5F2D2842258AEEDA00062D0D /* MyErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyErrorModel.swift; sourceTree = "<group>"; };
 		5FFEBBEE4E02F8B92D19FF83 /* Pods-NetworkLayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkLayer_Tests.release.xcconfig"; path = "Target Support Files/Pods-NetworkLayer_Tests/Pods-NetworkLayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* NetworkLayer_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkLayer_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				5F1E1B79255150EE00C90D0C /* NetworkProvider.swift */,
 				5F1E1B7B2551512100C90D0C /* ExampleTarget.swift */,
 				5F1E1B7D2551513E00C90D0C /* HelloModel.swift */,
+				5F2D2842258AEEDA00062D0D /* MyErrorModel.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5F1E1B7C2551512100C90D0C /* ExampleTarget.swift in Sources */,
 				5F1E1B7E2551513E00C90D0C /* HelloModel.swift in Sources */,
+				5F2D2843258AEEDA00062D0D /* MyErrorModel.swift in Sources */,
 				5F1E1B7A255150EE00C90D0C /* NetworkProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

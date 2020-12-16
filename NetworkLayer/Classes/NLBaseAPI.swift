@@ -55,9 +55,9 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest<E: NLBaseErrorProtocol, T: TargetType>(target: T,
+    public func sendRequest<T: TargetType>(target: T,
                                            shouldRetryOn401: Bool = true,
-                                           errorClass: E.Type,
+                                           errorClass: NLBaseErrorProtocol.Type,
                                            completion:@escaping NLCompletionVoid) -> CancellableRequest? {
         return fetchData(target: target, shouldRetryOn401: shouldRetryOn401, responseClass: NLBaseEmptyResponse.self, errorClass: errorClass) { (result, _)  in
             switch result {
@@ -79,12 +79,12 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func fetchData<M: Mappable, E: NLBaseErrorProtocol, T:TargetType>(target: T,
+    public func fetchData<M: Mappable, T:TargetType>(target: T,
                                                      shouldRetryOn401: Bool = true,
                                                      responseClass: M.Type,
                                                      progress:NLProgressBlock? = nil,
                                                      cachedResponseKey: String? = nil,
-                                                     errorClass: E.Type,
+                                                     errorClass: NLBaseErrorProtocol.Type,
                                                      completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         
         //Prepare retry block on failure
@@ -122,13 +122,13 @@ public class NLBaseAPI {
                     self.writeCache(forKey: cachedResponseKey, data: successResponse.data)
                     success(mappedObject, false)
                 }catch {
-                    if let errorObject = Mapper<E>().map(JSONObject: try? moyaResponse.mapJSON()) {
+                    if let errorObject = errorClass.init(JSON: (try? moyaResponse.mapJSON() as? [String: Any]) ?? [String: Any]()) {
                         // Check if 401 status and has authenicate block from NL wrapper
                         if errorObject.code == 401, shouldRetryOn401, let reauthenticateBlock = NL.reauthenticateBlock {
                             //Note: retryBlock(false), here set to false to break retry on fail indefinitely
                             return reauthenticateBlock(retryBlock(false))
                         }
-                        return fail(target, moyaResponse.statusCode, [NSLocalizedDescriptionKey: self.parseError(errors: errorObject.errors ?? [])])
+                        return fail(target, moyaResponse.statusCode, self.parseError(errorObject))
                     }
                     return fail(target, moyaResponse.statusCode, [NSLocalizedDescriptionKey: NLBaseErrorMessage.genericErrorMessage])
                 }
@@ -152,17 +152,10 @@ public class NLBaseAPI {
     }
     
     /// Parse error array of strings into one string multiple line
-    /// - Parameter errors: Array of error string
-    /// - Returns: one string error containing the error in erros array
-    private func parseError(errors: [String]) -> String {
-        var message = NLBaseErrorMessage.genericErrorMessage
-        if !errors.isEmpty {
-            message = ""
-            let count = errors.count
-            errors.forEach({message.append(count > 1 ? "-\($0)\n" : "\($0)\n")})
-            message.removeLast(1)
-        }
-        return message
+    /// - Parameter error: Mappable error object that conform to NLBaseErrorProtocol
+    /// - Returns: userInfo error dictionary
+    private func parseError(_ error: NLBaseErrorProtocol) -> [String:Any] {
+        return [NSLocalizedDescriptionKey: error.message ?? ""].merging(error.toJSON(), uniquingKeysWith: { ($0,$1).0 })
     }
     
     /// Read cached reponse data and return mappable object
