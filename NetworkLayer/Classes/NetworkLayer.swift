@@ -59,7 +59,7 @@ public let NL = NetworkLayerProvider.default
 
 public class NetworkLayerProvider {
     
-    public typealias BaseErrorDefault = NLBaseError
+    public typealias BaseErrorDefault = NLBaseErrorEmptyData
     
     public typealias ReauthenticateBlockType = ((()->())->())
     
@@ -129,15 +129,62 @@ public class NetworkLayerProvider {
     ///   - target: TaregeType of current request
     ///   - shouldRetryOn401: if should attempt to retry on unauthorize response 401 by call reauthenticate from NLWrapper
     ///   - completion: completion block with results
+    ///   - errorClass: custom error mappable object
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest< T: TargetType>(target: T,
-                                           shouldRetryOn401: Bool = true,
-                                           errorClass: NLBaseErrorProtocol.Type = BaseErrorDefault.self,
-                                           completion:@escaping NLCompletionVoid) -> CancellableRequest? {
+    public func sendRequest< T: TargetType, E: Mappable>(target: T,
+                                            shouldRetryOn401: Bool = true,
+                                            errorClass: E.Type,
+                                            completion:@escaping NLCompletionVoid) -> CancellableRequest? {
         return baseAPI.sendRequest(target: target,
                                    shouldRetryOn401: shouldRetryOn401,
                                    errorClass: errorClass,
+                                   completion: completion)
+    }
+    
+    /// Send request with expected mappable object returned
+    /// - Parameters:
+    ///   - target: TaregeType of current request
+    ///   - shouldRetryOn401: if should attempt to retry on unauthorize response 401 by call reauthenticate from NLWrapper
+    ///   - responseClass: Mappable response class
+    ///   - progress: progress block (usually used with uploads and download)
+    ///   - completion: completion block with results
+    ///   - cachedResponseKey: string key for caching this reponse on success
+    ///   - errorClass: custom error mappable object
+    /// - Returns: CancellableRequest or nil if no network connection
+    @discardableResult
+    public func fetchData<M: Mappable, T:TargetType, E: Mappable>(target: T,
+                                                     responseClass: M.Type,
+                                                     shouldRetryOn401: Bool = true,
+                                                     progress:((Double)-> Void)? = nil,
+                                                     cachedResponseKey: String? = nil,
+                                                     errorClass: E.Type,
+                                                     completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
+        return baseAPI.fetchData(target: target,
+                                 shouldRetryOn401: shouldRetryOn401,
+                                 responseClass: responseClass,
+                                 progress: progress,
+                                 cachedResponseKey: cachedResponseKey,
+                                 errorClass: errorClass,
+                                 completion: completion)
+    }
+}
+
+extension NetworkLayerProvider {
+    //MARK: Methods
+    /// Send plain request with expected empty response
+    /// - Parameters:
+    ///   - target: TaregeType of current request
+    ///   - shouldRetryOn401: if should attempt to retry on unauthorize response 401 by call reauthenticate from NLWrapper
+    ///   - completion: completion block with results
+    /// - Returns: CancellableRequest or nil if no network connection
+    @discardableResult
+    public func sendRequest< T: TargetType>(target: T,
+                                            shouldRetryOn401: Bool = true,
+                                            completion:@escaping NLCompletionVoid) -> CancellableRequest? {
+        return baseAPI.sendRequest(target: target,
+                                   shouldRetryOn401: shouldRetryOn401,
+                                   errorClass: BaseErrorDefault.self,
                                    completion: completion)
     }
     
@@ -155,14 +202,13 @@ public class NetworkLayerProvider {
                                                      shouldRetryOn401: Bool = true,
                                                      progress:((Double)-> Void)? = nil,
                                                      cachedResponseKey: String? = nil,
-                                                     errorClass: NLBaseErrorProtocol.Type = BaseErrorDefault.self,
                                                      completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         return baseAPI.fetchData(target: target,
                                  shouldRetryOn401: shouldRetryOn401,
                                  responseClass: responseClass,
                                  progress: progress,
                                  cachedResponseKey: cachedResponseKey,
-                                 errorClass: errorClass,
+                                 errorClass: BaseErrorDefault.self,
                                  completion: completion)
     }
 }

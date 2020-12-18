@@ -55,10 +55,10 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest<T: TargetType>(target: T,
-                                           shouldRetryOn401: Bool = true,
-                                           errorClass: NLBaseErrorProtocol.Type,
-                                           completion:@escaping NLCompletionVoid) -> CancellableRequest? {
+    public func sendRequest<T: TargetType, E: Mappable>(target: T,
+                                                        shouldRetryOn401: Bool = true,
+                                                        errorClass: E.Type,
+                                                        completion:@escaping NLCompletionVoid) -> CancellableRequest? {
         return fetchData(target: target, shouldRetryOn401: shouldRetryOn401, responseClass: NLBaseEmptyResponse.self, errorClass: errorClass) { (result, _)  in
             switch result {
             case .success:
@@ -79,13 +79,13 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func fetchData<M: Mappable, T:TargetType>(target: T,
-                                                     shouldRetryOn401: Bool = true,
-                                                     responseClass: M.Type,
-                                                     progress:NLProgressBlock? = nil,
-                                                     cachedResponseKey: String? = nil,
-                                                     errorClass: NLBaseErrorProtocol.Type,
-                                                     completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
+    public func fetchData<M: Mappable, T:TargetType, E: Mappable>(target: T,
+                                                                  shouldRetryOn401: Bool = true,
+                                                                  responseClass: M.Type,
+                                                                  progress:NLProgressBlock? = nil,
+                                                                  cachedResponseKey: String? = nil,
+                                                                  errorClass: E.Type,
+                                                                  completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         
         //Prepare retry block on failure
         let retryBlock: (Bool)->(()->()) = {  [weak self] shouldRetry in
@@ -122,7 +122,8 @@ public class NLBaseAPI {
                     self.writeCache(forKey: cachedResponseKey, data: successResponse.data)
                     success(mappedObject, false)
                 }catch {
-                    if let errorObject = errorClass.init(JSON: (try? moyaResponse.mapJSON() as? [String: Any]) ?? [String: Any]()) {
+                    
+                    if let errorObject = Mapper<NLBaseError<E>>().map(JSON: (try? moyaResponse.mapJSON() as? [String: Any]) ?? [String: Any]()) {
                         // Check if 401 status and has authenicate block from NL wrapper
                         if errorObject.code == 401, shouldRetryOn401, let reauthenticateBlock = NL.reauthenticateBlock {
                             //Note: retryBlock(false), here set to false to break retry on fail indefinitely
@@ -154,7 +155,7 @@ public class NLBaseAPI {
     /// Parse error array of strings into one string multiple line
     /// - Parameter error: Mappable error object that conform to NLBaseErrorProtocol
     /// - Returns: userInfo error dictionary
-    private func parseError(_ error: NLBaseErrorProtocol) -> [String:Any] {
+    private func parseError<E: NLBaseErrorProtocol>(_ error: E) -> [String:Any] {
         return [NSLocalizedDescriptionKey: error.message ?? ""].merging(error.toJSON(), uniquingKeysWith: { ($0,$1).0 })
     }
     

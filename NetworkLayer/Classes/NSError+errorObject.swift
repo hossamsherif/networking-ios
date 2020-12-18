@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import ObjectMapper
 
 extension NSError {
-    public func getErrorObject<E: NLBaseErrorProtocol>(_ type: E.Type) -> E? {
+    public func getErrorObject<E: Mappable>(_ type: E.Type) -> E? {
         return E(JSON: userInfo)
     }
 }

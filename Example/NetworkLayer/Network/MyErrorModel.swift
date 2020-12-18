@@ -10,15 +10,12 @@ import Foundation
 import NetworkLayer
 import ObjectMapper
 
-public class MyErrorModel: NLBaseError {
+public class MyErrorModel: Mappable {
     var custom:String = ""
     
-    public required init?(map: Map) {
-        super.init(map: map)
-    }
+    public required init?(map: Map) { }
     
-    public override func mapping(map: Map) {
-        super.mapping(map: map)
+    public func mapping(map: Map) {
         custom <- map["custom"]
     }
 }
