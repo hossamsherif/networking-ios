@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'NetworkLayer'
+  s.name             = 'NetworkLayerSwift'
   s.version          = '0.1.0'
   s.summary          = 'NetworkLayer is managed network layer built up on Moya network library.'
 
