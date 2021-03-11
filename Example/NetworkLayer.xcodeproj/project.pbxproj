@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		19C61D7EB4E50CCC222B42A7 /* NetworkLayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = NetworkLayer.podspec; path = ../NetworkLayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		19C61D7EB4E50CCC222B42A7 /* NetworkLayerSwift.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = NetworkLayerSwift.podspec; path = ../NetworkLayerSwift.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		520E915D2672CCA5BC19E302 /* libPods-NetworkLayer_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetworkLayer_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F1E1B79255150EE00C90D0C /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		5F1E1B7B2551512100C90D0C /* ExampleTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTarget.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				19C61D7EB4E50CCC222B42A7 /* NetworkLayer.podspec */,
+				19C61D7EB4E50CCC222B42A7 /* NetworkLayerSwift.podspec */,
 				737B20A1F6D192E5E69ECE5E /* README.md */,
 				B4156E698B988B817D0C927F /* LICENSE */,
 			);
