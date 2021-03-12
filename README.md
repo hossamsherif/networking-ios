@@ -1,4 +1,4 @@
-# NetworkLayer
+# NetworkLayerSwift
 
 [![CI Status](https://img.shields.io/travis/hossamsherif/NetworkLayer.svg?style=flat)](https://travis-ci.org/hossamsherif/NetworkLayer)
 [![Version](https://img.shields.io/cocoapods/v/NetworkLayer.svg?style=flat)](https://cocoapods.org/pods/NetworkLayer)

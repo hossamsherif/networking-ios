@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import NetworkLayer
+import NetworkLayerSwift
 import ObjectMapper
 
 

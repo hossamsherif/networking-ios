@@ -6,7 +6,7 @@
 //  Copyright © 2020 CocoaPods. All rights reserved.
 //
 
-import NetworkLayer
+import NetworkLayerSwift
 
 enum ExampleTarget: TargetType {
     

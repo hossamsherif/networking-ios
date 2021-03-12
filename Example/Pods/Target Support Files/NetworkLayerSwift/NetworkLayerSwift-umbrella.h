@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_NetworkLayer_ExampleVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_NetworkLayer_ExampleVersionString[];
+FOUNDATION_EXPORT double NetworkLayerSwiftVersionNumber;
+FOUNDATION_EXPORT const unsigned char NetworkLayerSwiftVersionString[];
 

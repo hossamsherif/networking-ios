@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import NetworkLayer
+import NetworkLayerSwift
 import ObjectMapper
 
 public class MyErrorModel: Mappable {

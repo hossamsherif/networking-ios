@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
+   LastUpgradeVersion = "1220"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "NetworkLayer_Example.app"
-               BlueprintName = "NetworkLayer_Example"
-               ReferencedContainer = "container:NetworkLayer.xcodeproj">
+               BuildableName = "NetworkLayerSwift_Example.app"
+               BlueprintName = "NetworkLayerSwift_Example"
+               ReferencedContainer = "container:NetworkLayerSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "NetworkLayer_Tests.xctest"
-               BlueprintName = "NetworkLayer_Tests"
-               ReferencedContainer = "container:NetworkLayer.xcodeproj">
+               BuildableName = "NetworkLayerSwift_Tests.xctest"
+               BlueprintName = "NetworkLayerSwift_Tests"
+               ReferencedContainer = "container:NetworkLayerSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "NetworkLayer_Example.app"
-            BlueprintName = "NetworkLayer_Example"
-            ReferencedContainer = "container:NetworkLayer.xcodeproj">
+            BuildableName = "NetworkLayerSwift_Example.app"
+            BlueprintName = "NetworkLayerSwift_Example"
+            ReferencedContainer = "container:NetworkLayerSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -56,9 +56,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "NetworkLayer_Tests.xctest"
-               BlueprintName = "NetworkLayer_Tests"
-               ReferencedContainer = "container:NetworkLayer.xcodeproj">
+               BuildableName = "NetworkLayerSwift_Tests.xctest"
+               BlueprintName = "NetworkLayerSwift_Tests"
+               ReferencedContainer = "container:NetworkLayerSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -78,9 +78,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "NetworkLayer_Example.app"
-            BlueprintName = "NetworkLayer_Example"
-            ReferencedContainer = "container:NetworkLayer.xcodeproj">
+            BuildableName = "NetworkLayerSwift_Example.app"
+            BlueprintName = "NetworkLayerSwift_Example"
+            ReferencedContainer = "container:NetworkLayerSwift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "NetworkLayer_Example.app"
-            BlueprintName = "NetworkLayer_Example"
-            ReferencedContainer = "container:NetworkLayer.xcodeproj">
+            BuildableName = "NetworkLayerSwift_Example.app"
+            BlueprintName = "NetworkLayerSwift_Example"
+            ReferencedContainer = "container:NetworkLayerSwift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

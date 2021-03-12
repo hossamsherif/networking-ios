@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import NetworkLayer
+import NetworkLayerSwift
 
 typealias HelloModelResult = (_ result: Result<HelloModel?, NSError>,_ cached: Bool) -> Void
 
