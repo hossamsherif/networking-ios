@@ -8,16 +8,9 @@
 
 import Foundation
 import NetworkLayerSwift
-import ObjectMapper
 
-public class MyErrorModel: Mappable {
-    var custom:String = ""
-    
-    public required init?(map: Map) { }
-    
-    public func mapping(map: Map) {
-        custom <- map["custom"]
-    }
+public struct MyErrorModel: Decodable {
+    let custom:String
 }
 
 extension NSError {

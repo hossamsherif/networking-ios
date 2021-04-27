@@ -7,7 +7,6 @@
 
 import Foundation
 import Moya
-import ObjectMapper
 import DataCache
 
 public struct NLConfiguration {
@@ -132,7 +131,7 @@ public class NetworkLayerProvider {
     ///   - errorClass: custom error mappable object
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest< T: TargetType, E: Mappable>(target: T,
+    public func sendRequest< T: TargetType, E: Decodable>(target: T,
                                             shouldRetryOn401: Bool = true,
                                             errorClass: E.Type,
                                             completion:@escaping NLCompletionVoid) -> CancellableRequest? {
@@ -153,7 +152,7 @@ public class NetworkLayerProvider {
     ///   - errorClass: custom error mappable object
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func fetchData<M: Mappable, T:TargetType, E: Mappable>(target: T,
+    public func fetchData<M: Decodable, T:TargetType, E: Decodable>(target: T,
                                                      responseClass: M.Type,
                                                      shouldRetryOn401: Bool = true,
                                                      progress:((Double)-> Void)? = nil,
@@ -197,7 +196,7 @@ extension NetworkLayerProvider {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func fetchData<M: Mappable, T:TargetType>(target: T,
+    public func fetchData<M: Decodable, T:TargetType>(target: T,
                                                      responseClass: M.Type,
                                                      shouldRetryOn401: Bool = true,
                                                      progress:((Double)-> Void)? = nil,

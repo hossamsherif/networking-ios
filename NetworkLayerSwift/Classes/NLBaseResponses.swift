@@ -7,39 +7,29 @@
 //
 
 import Foundation
-import ObjectMapper
 
-public class NLBaseResponse<T: Mappable>: Mappable {
-    
+public class NLBaseResponse<T: Decodable>: Decodable {
     public var code: Int?
     public var data: T?
-    
-    required public init?(map: Map) {}
-    
-    public func mapping(map: Map) {
-        code <- map["status_code"]
-        data <- map["data"]
+    enum CodingKeys: String, CodingKey {
+        case code = "status_code"
+        case data
     }
 }
 
-public class NLBaseArrayResponse<T: Mappable>: Mappable {
+public class NLBaseArrayResponse<T: Decodable>: Decodable {
     
     public var code: Int?
     public var data: [T]?
     
-    required public init?(map: Map) {}
-    
-    public func mapping(map: Map) {
-        code <- map["status_code"]
-        data <- map["data"]
+    enum CodingKeys: String, CodingKey {
+        case code = "status_code"
+        case data
     }
 }
 
 
 /// BaseEmptyResponse is used with NL.sendRequest which return only success and failure of the call without accually use this Mappable
 /// - see also: BaseAPI.SendRequest
-public class NLBaseEmptyResponse: Mappable {
-    required public init?(map: Map) {}
-    public func mapping(map: Map) {}
-}
+public class NLBaseEmptyResponse: Decodable { }
 

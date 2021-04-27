@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import ObjectMapper
 
 extension NSError {
-    public func getErrorObject<E: Mappable>(_ type: E.Type) -> E? {
-        return E(JSON: userInfo)
+    public func getErrorObject<E: Decodable>(_ type: E.Type) -> E? {
+        guard let data = try? JSONSerialization.data(withJSONObject: userInfo, options: []) else { return nil }
+        return try? JSONDecoder().decode(E.self, from: data)
     }
 }

@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import ObjectMapper
 
-struct HelloModel: Mappable {
+struct HelloModel: Decodable {
+    
     var hello: String?
-    init?(map: Map) { }
-    mutating func mapping(map: Map) {
-        hello <- map["message"]
+    
+    enum CodingKeys: String, CodingKey {
+        case hello = "message"
     }
 }

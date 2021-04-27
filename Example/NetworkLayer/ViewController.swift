@@ -8,7 +8,6 @@
 
 import UIKit
 import NetworkLayerSwift
-import ObjectMapper
 
 
 class ViewController: UIViewController {

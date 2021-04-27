@@ -8,12 +8,11 @@
 
 import Foundation
 import Moya
-import ObjectMapper
 
 // Completion block with void type used with `sendRequest`
 public typealias NLCompletionVoid = (Result<Void, NSError>) -> Void
 // Completion block with mappable object used with `fetchData`
-public typealias NLCompletionMappable<M: Mappable> = (Result<M?, NSError>, Bool) -> Void
+public typealias NLCompletionMappable<M: Decodable> = (Result<M?, NSError>, Bool) -> Void
 // Progress block
 public typealias NLProgressBlock = ((Double)-> Void)
 
@@ -36,7 +35,7 @@ public class NLBaseAPI {
     // Failure completion block
     typealias failureCompletion = (TargetType, Int, [String:Any]) -> ()
     // Success completion block with cached boolean
-    typealias sucessCompletion<M:Mappable> = (M?, Bool) -> ()
+    typealias sucessCompletion<M: Decodable> = (M?, Bool) -> ()
     
     //MARK: Singleton
     public static let `default`: NLBaseAPI = NLBaseAPI()
@@ -55,7 +54,7 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func sendRequest<T: TargetType, E: Mappable>(target: T,
+    public func sendRequest<T: TargetType, E: Decodable>(target: T,
                                                         shouldRetryOn401: Bool = true,
                                                         errorClass: E.Type,
                                                         completion:@escaping NLCompletionVoid) -> CancellableRequest? {
@@ -79,7 +78,7 @@ public class NLBaseAPI {
     ///   - completion: completion block with results
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
-    public func fetchData<M: Mappable, T:TargetType, E: Mappable>(target: T,
+    public func fetchData<M: Decodable, T:TargetType, E: Decodable>(target: T,
                                                                   shouldRetryOn401: Bool = true,
                                                                   responseClass: M.Type,
                                                                   progress:NLProgressBlock? = nil,
@@ -115,7 +114,7 @@ public class NLBaseAPI {
                 do {
                     let successResponse = try moyaResponse.filterSuccessfulStatusCodes() //Check for status error
                     if responseClass is NLBaseEmptyResponse.Type { return success(nil, false) } // Check if sendRequest with empty response
-                    guard let mappedObject = Mapper<M>().map(JSONObject: try successResponse.mapJSON()) else {
+                    guard let mappedObject = try? JSONDecoder().decode(M.self, from: moyaResponse.data) else {
                         return fail(target, moyaResponse.statusCode, [NSLocalizedDescriptionKey: NLBaseErrorMessage.decodeError])
                     }
                     //Cache reponse data if applicable
@@ -123,13 +122,14 @@ public class NLBaseAPI {
                     success(mappedObject, false)
                 }catch {
                     
-                    if let errorObject = Mapper<NLBaseError<E>>().map(JSON: (try? moyaResponse.mapJSON() as? [String: Any]) ?? [String: Any]()) {
+                    if let _ = try? JSONDecoder().decode(E.self, from: moyaResponse.data) {
                         // Check if 401 status and has authenicate block from NL wrapper
-                        if errorObject.code == 401, shouldRetryOn401, let reauthenticateBlock = NL.reauthenticateBlock {
+                        if moyaResponse.statusCode == 401, shouldRetryOn401, let reauthenticateBlock = NL.reauthenticateBlock {
                             //Note: retryBlock(false), here set to false to break retry on fail indefinitely
                             return reauthenticateBlock(retryBlock(false))
                         }
-                        return fail(target, moyaResponse.statusCode, self.parseError(errorObject))
+                        let json = (try? moyaResponse.mapJSON() as? [String: Any]) ?? [:]
+                        return fail(target, moyaResponse.statusCode, json)
                     }
                     return fail(target, moyaResponse.statusCode, [NSLocalizedDescriptionKey: NLBaseErrorMessage.genericErrorMessage])
                 }
@@ -155,19 +155,19 @@ public class NLBaseAPI {
     /// Parse error array of strings into one string multiple line
     /// - Parameter error: Mappable error object that conform to NLBaseErrorProtocol
     /// - Returns: userInfo error dictionary
-    private func parseError<E: NLBaseErrorProtocol>(_ error: E) -> [String:Any] {
-        return [NSLocalizedDescriptionKey: error.message ?? ""].merging(error.toJSON(), uniquingKeysWith: { ($0,$1).0 })
-    }
+//    private func parseError<E: Decodable>(_ error: E) -> [String:Any] {
+//        return [NSLocalizedDescriptionKey: error.message ?? ""].merging(error.toJSON(), uniquingKeysWith: { ($0,$1).0 })
+//    }
     
     /// Read cached reponse data and return mappable object
     /// - Parameters:
     ///   - forKey: Key for cached mappable object
     ///   - responseClass: Mappable object responseClass
     /// - Returns: Mappable object contained in the cached response
-    private func readCache<M: Mappable>(forKey: String, responseClass: M.Type) -> M? {
+    private func readCache<M: Decodable>(forKey: String, responseClass: M.Type) -> M? {
         guard let cachedData = NL.cacheManager.readData(forKey: forKey) else { return nil }
-        let cachedResponse: Response = Response(statusCode: 200, data: cachedData)
-        let mappedObject = Mapper<M>().map(JSONObject: try? cachedResponse.mapJSON())
+//        let cachedResponse: Response = Response(statusCode: 200, data: cachedData)
+        let mappedObject = try? JSONDecoder().decode(M.self, from: cachedData)
         return mappedObject
     }
     
