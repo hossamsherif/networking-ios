@@ -8,9 +8,7 @@ PODS:
   - NetworkLayerSwift (0.2.0):
     - DataCache
     - Moya (~> 14.0)
-    - ObjectMapper
     - ReachabilitySwift
-  - ObjectMapper (4.2.0)
   - ReachabilitySwift (5.0.0)
 
 DEPENDENCIES:
@@ -21,7 +19,6 @@ SPEC REPOS:
     - Alamofire
     - DataCache
     - Moya
-    - ObjectMapper
     - ReachabilitySwift
 
 EXTERNAL SOURCES:
@@ -32,8 +29,7 @@ SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   DataCache: 8099e01aa35c2fd30f3410aae14ef5a130f6524b
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
-  NetworkLayerSwift: f1e1d237dfa98f5ed3e8e2863e9eb77cabbdca61
-  ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  NetworkLayerSwift: d8b3334a491455a9d5c41a3325c8c0e2b9bb2bc2
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
 
 PODFILE CHECKSUM: 61f09ab90e63e94dda5d0c433234bb0ef220628b

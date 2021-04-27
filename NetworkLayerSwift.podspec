@@ -45,7 +45,6 @@ Pod::Spec.new do |s|
 
 #   s.public_header_files = 'Pod/Classes/**/*.h'
    s.dependency 'Moya', '~> 14.0'
-   s.dependency 'ObjectMapper'
    s.dependency 'ReachabilitySwift'
    s.dependency 'DataCache'
 end

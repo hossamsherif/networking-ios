@@ -24,9 +24,6 @@
     "Moya": [
       "~> 14.0"
     ],
-    "ObjectMapper": [
-
-    ],
     "ReachabilitySwift": [
 
     ],
