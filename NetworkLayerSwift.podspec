@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NetworkLayerSwift'
-  s.version          = '0.2.0'
+  s.version          = '0.3.0'
   s.summary          = 'NetworkLayerSwift is managed network layer built up on Moya network library.'
 
 # This description is used to generate tags and improve search results.
