@@ -1,6 +1,6 @@
 {
   "name": "NetworkLayerSwift",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "summary": "NetworkLayerSwift is managed network layer built up on Moya network library.",
   "description": "Built up on MoyaProvider<MultiTarget> provider\nProviders:\n- sending plain request via `sendRequest` which only success and failure\n- fetching data request via `fetchData` which return success with mappable object result or failure with error\nFeatures:\n- Caching with by providing cachedResponseKey - only available for `fetchData`\n- Retry on 401 error by passing true to shouldRetryOn401 paramter - also need to pass reauthenticate block to NL.reauthenticateBlock\n- Progress block for uploading and downloading request to get current progress by ((Double)-> Void) block",
   "homepage": "https://github.com/hossamsherif/networking-ios",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/hossamsherif/networking-ios.git",
-    "tag": "0.3.0"
+    "tag": "0.4.0"
   },
   "platforms": {
     "ios": "10.0"

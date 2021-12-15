@@ -5,7 +5,7 @@ PODS:
     - Moya/Core (= 14.0.0)
   - Moya/Core (14.0.0):
     - Alamofire (~> 5.0)
-  - NetworkLayerSwift (0.3.0):
+  - NetworkLayerSwift (0.4.0):
     - DataCache
     - Moya (~> 14.0)
     - ReachabilitySwift
@@ -29,7 +29,7 @@ SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   DataCache: 8099e01aa35c2fd30f3410aae14ef5a130f6524b
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
-  NetworkLayerSwift: 2db983d5d123e1ce2ff5c1fb3282a560074460fd
+  NetworkLayerSwift: b307eb318e532aa104354ad4b73f530fd71453fa
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
 
 PODFILE CHECKSUM: 61f09ab90e63e94dda5d0c433234bb0ef220628b
