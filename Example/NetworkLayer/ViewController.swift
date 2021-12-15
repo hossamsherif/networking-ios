@@ -33,8 +33,12 @@ class ViewController: UIViewController {
     @objc func connectionDidChange(_ notification:Notification) {
         if let connectionState = notification.userInfo?[NL.reachabilityConfiguration.didChangeConnectionUserInfoKey] as? NLConnectionType,
             [.wifi, .cellular].contains(connectionState) { // connected
-            let retryRequest = failedRequests.popLast()
-            retryRequest?()
+            while !failedRequests.isEmpty {
+                let retryRequest = failedRequests.popLast()
+                retryRequest?()
+            }
+        } else {
+            print("no Internet connection")
         }
         
     }
