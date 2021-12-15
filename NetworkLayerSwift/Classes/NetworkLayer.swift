@@ -15,14 +15,14 @@ public struct NLConfiguration {
     public var enableLogging: Bool
     
     /// used to retrive failed request from userInfo associated with  apiConnectionFailure Notification
-    public var apiConnectionFailureUserInfoKey:String
+    public var apiConnectionFailureUserInfoKey: String
     
     /// providing a custom apiConnectionFailure Notification.Name
     public var apiConnectionFailure: Notification.Name
     
     public init(enableLogging:Bool = false,
-                apiConnectionFailureUserInfoKey:String = "NLApiConnectionFailureUserInfoKey",
-                apiConnectionFailure:Notification.Name = Notification.Name("NLApiConnectionFailure")) {
+                apiConnectionFailureUserInfoKey: String = "NLApiConnectionFailureUserInfoKey",
+                apiConnectionFailure: Notification.Name = Notification.Name("NLApiConnectionFailure")) {
         self.enableLogging = enableLogging
         self.apiConnectionFailureUserInfoKey = apiConnectionFailureUserInfoKey
         self.apiConnectionFailure = apiConnectionFailure
@@ -32,24 +32,24 @@ public struct NLConfiguration {
 public struct NLReachabilbityConfiguration {
     
     /// used to retrive connection changes from userInfo associated with  reachabilityDidChangeConnection Notification
-    public var didChangeConnectionUserInfoKey:String
+    public var didChangeConnectionUserInfoKey: String
     
     /// providing a custom reachabilityDidChangeConnection Notification.Name
-    public var didChangeConnection:Notification.Name
+    public var didChangeConnection: Notification.Name
     
-    public init(didChangeConnectionUserInfoKey:String = "reachabilityDidChangeConnectionUserInfoKey",
-                didChangeConnection:Notification.Name = Notification.Name("reachabilityDidChangeConnection")) {
+    public init(didChangeConnectionUserInfoKey: String = "reachabilityDidChangeConnectionUserInfoKey",
+                didChangeConnection: Notification.Name = Notification.Name("reachabilityDidChangeConnection")) {
         self.didChangeConnectionUserInfoKey = didChangeConnectionUserInfoKey
         self.didChangeConnection = didChangeConnection
     }
 }
 
 extension  Notification.Name {
-    public static var NLDidChangeConnection:Notification.Name {
-        return NL.configuration.apiConnectionFailure
-    }
-    public static var NLApiConnectionFailure:Notification.Name {
+    public static var NLDidChangeConnection: Notification.Name {
         return NL.reachabilityConfiguration.didChangeConnection
+    }
+    public static var NLApiConnectionFailure: Notification.Name {
+        return NL.configuration.apiConnectionFailure
     }
 }
 
@@ -132,9 +132,9 @@ public class NetworkLayerProvider {
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
     public func sendRequest< T: TargetType, E: Decodable>(target: T,
-                                            shouldRetryOn401: Bool = true,
-                                            errorClass: E.Type,
-                                            completion:@escaping NLCompletionVoid) -> CancellableRequest? {
+                                                          shouldRetryOn401: Bool = true,
+                                                          errorClass: E.Type,
+                                                          completion:@escaping NLCompletionVoid) -> CancellableRequest? {
         return baseAPI.sendRequest(target: target,
                                    shouldRetryOn401: shouldRetryOn401,
                                    errorClass: errorClass,
@@ -153,12 +153,12 @@ public class NetworkLayerProvider {
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
     public func fetchData<M: Decodable, T:TargetType, E: Decodable>(target: T,
-                                                     responseClass: M.Type,
-                                                     shouldRetryOn401: Bool = true,
-                                                     progress:((Double)-> Void)? = nil,
-                                                     cachedResponseKey: String? = nil,
-                                                     errorClass: E.Type,
-                                                     completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
+                                                                    responseClass: M.Type,
+                                                                    shouldRetryOn401: Bool = true,
+                                                                    progress:((Double)-> Void)? = nil,
+                                                                    cachedResponseKey: String? = nil,
+                                                                    errorClass: E.Type,
+                                                                    completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         return baseAPI.fetchData(target: target,
                                  shouldRetryOn401: shouldRetryOn401,
                                  responseClass: responseClass,
@@ -197,11 +197,11 @@ extension NetworkLayerProvider {
     /// - Returns: CancellableRequest or nil if no network connection
     @discardableResult
     public func fetchData<M: Decodable, T:TargetType>(target: T,
-                                                     responseClass: M.Type,
-                                                     shouldRetryOn401: Bool = true,
-                                                     progress:((Double)-> Void)? = nil,
-                                                     cachedResponseKey: String? = nil,
-                                                     completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
+                                                      responseClass: M.Type,
+                                                      shouldRetryOn401: Bool = true,
+                                                      progress:((Double)-> Void)? = nil,
+                                                      cachedResponseKey: String? = nil,
+                                                      completion:@escaping NLCompletionMappable<M>) -> CancellableRequest? {
         return baseAPI.fetchData(target: target,
                                  shouldRetryOn401: shouldRetryOn401,
                                  responseClass: responseClass,
