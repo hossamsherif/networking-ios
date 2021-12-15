@@ -166,7 +166,6 @@ public class NLBaseAPI {
     /// - Returns: Mappable object contained in the cached response
     private func readCache<M: Decodable>(forKey: String, responseClass: M.Type) -> M? {
         guard let cachedData = NL.cacheManager.readData(forKey: forKey) else { return nil }
-//        let cachedResponse: Response = Response(statusCode: 200, data: cachedData)
         let mappedObject = try? JSONDecoder().decode(M.self, from: cachedData)
         return mappedObject
     }
